@@ -280,6 +280,22 @@ module.exports = function (grunt) {
         },
         // Put files not handled in other tasks here
         copy: {
+            heroku: {
+                files: [{
+                    expand: true,
+                    dest: '<%= yeoman.dist %>',
+                    cwd: 'heroku',
+                    src: '*',
+                    rename: function (dest, src) {
+                        var path = require('path');
+                        if (src === 'distpackage.json') {
+                            return path.join(dest, 'package.json');
+                        }
+                        return path.join(dest, src);
+                    }
+                }]
+            },
+
             dist: {
                 files: [{
                     expand: true,
@@ -375,6 +391,7 @@ module.exports = function (grunt) {
         'uglify',
         'modernizr',
         'copy:dist',
+        'copy:heroku',
         'rev',
         'usemin'
     ]);
