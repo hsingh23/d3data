@@ -1,6 +1,7 @@
 require.config({
     paths: {
         jquery: '../bower_components/jquery/jquery',
+        d3: '../bower_components/d3/d3',
         bootstrapAffix: '../bower_components/sass-bootstrap/js/affix',
         bootstrapAlert: '../bower_components/sass-bootstrap/js/alert',
         bootstrapButton: '../bower_components/sass-bootstrap/js/button',
@@ -50,7 +51,7 @@ require.config({
     }
 });
 
-require(['app', 'jquery'], function (app, $) {
+require(['app', 'jquery', 'd3'], function (app, $) {
     'use strict';
     // use app here
     console.log(app);
