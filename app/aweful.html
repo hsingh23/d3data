@@ -1,25 +1,104 @@
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>d3data</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(.tmp) styles/main.css -->
   <title>Boss man</title>
 </head>
 <body>
-<style>
-  chart-axis{
-    stroke: grey;
-    stroke-width: 1px;
-    fill: none;
+  <style>
+  html, body, div, span, applet, object, iframe,
+  h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+  a, abbr, acronym, address, big, cite, code,
+  del, dfn, em, img, ins, kbd, q, s, samp,
+  small, strike, strong, sub, sup, tt, var,
+  b, u, i, center,
+  dl, dt, dd, ol, ul, li,
+  fieldset, form, label, legend,
+  table, caption, tbody, tfoot, thead, tr, th, td,
+  article, aside, canvas, details, embed, 
+  figure, figcaption, footer, header, hgroup, 
+  menu, nav, output, ruby, section, summary,
+  time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
   }
-  path{
-    stroke: purple;
-    stroke-width: 2px;
+  /* HTML5 display-role reset for older browsers */
+  article, aside, details, figcaption, figure, 
+  footer, header, hgroup, menu, nav, section {
+    display: block;
+  }
+  body {
+    line-height: 1;
+  }
+  ol, ul {
+    list-style: none;
+  }
+  blockquote, q {
+    quotes: none;
+  }
+  blockquote:before, blockquote:after,
+  q:before, q:after {
+    content: '';
+    content: none;
+  }
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  .cost-slider {
+    position: absolute;
+    bottom: 0;
+  }
+
+  body {
+    font: 10px sans-serif;
+    margin: 0;
+  }
+
+  path.line {
     fill: none;
+    stroke: #666;
+    stroke-width: 1.5px;
+  }
+
+  path.area {
+    fill: #e7e7e7;
+  }
+
+  .axis {
     shape-rendering: crispEdges;
   }
 
-</style>
-<div class="boss_chart"></div>
-<script src="./bower_components/jquery/jquery.js"></script>
-<script src="./bower_components/d3/d3.js"></script>
-<script src="./scripts/aweful.js"></script>
+  .x.axis line {
+    stroke: #fff;
+  }
+
+  .x.axis .minor {
+    stroke-opacity: .5;
+  }
+
+  .x.axis path {
+    display: none;
+  }
+
+  .y.axis line, .y.axis path {
+    fill: none;
+    stroke: #000;
+  }
+  </style>
+  <div class="boss_chart"></div>
+  <script src="./bower_components/jquery/jquery.js"></script>
+  <script src="./bower_components/d3/d3.js"></script>
+  <script src="./scripts/aweful.js"></script>
 </body>
 </html>
