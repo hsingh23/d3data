@@ -6,7 +6,7 @@
     "requirejs": "~2.1.8",
     "modernizr": "~2.6.2",
     "jquery": "~1.10.2",
-    "d3": "*"
+    "d3": ~3.3.5
   },
   "devDependencies": {}
 }

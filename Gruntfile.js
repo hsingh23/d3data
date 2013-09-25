@@ -59,7 +59,7 @@ module.exports = function (grunt) {
             },
             livereload: {
                 options: {
-                    open: true,
+                    // open: true,
                     base: [
                         '.tmp',
                         yeomanConfig.app
@@ -71,13 +71,14 @@ module.exports = function (grunt) {
                     base: [
                         '.tmp',
                         'test',
-                        yeomanConfig.app,
+                        yeomanConfig.app
                     ]
                 }
             },
             dist: {
                 options: {
-                    open: true,
+                    // open: true,
+					// app: "google-chrome",
                     base: yeomanConfig.dist
                 }
             }
@@ -305,6 +306,7 @@ module.exports = function (grunt) {
                     src: [
                         '*.{ico,png,txt}',
                         '.htaccess',
+                        'data/*.json',
                         'images/{,*/}*.{webp,gif}',
                         'styles/fonts/{,*/}*.*',
                         'bower_components/sass-bootstrap/fonts/*.*'
