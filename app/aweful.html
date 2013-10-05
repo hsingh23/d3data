@@ -95,8 +95,19 @@
     fill: none;
     stroke: #000;
   }
+#x-marker {
+  width:1px;
+  height:100px;
+  position:fixed;
+  bottom:0;
+  background-color:red;
+  left:-10px;
+}
+
+
   </style>
-  <div class="boss_chart"></div>
+  <div id="timeline"></div>
+  <div id="x-marker"></div>
   <script src="./bower_components/jquery/jquery.js"></script>
   <script src="./bower_components/d3/d3.js"></script>
   <script src="./scripts/aweful.js"></script>
