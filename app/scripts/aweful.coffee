@@ -18,6 +18,7 @@ class Module
 class Timeline extends Module
   constructor: (@$selector, @width, @height) ->
     @svg = d3.select(@$selector)
+      .attr("id", "timeline-slider-svg")
       .append("svg")
         .attr("width",@width)
         .attr("height",@height)
@@ -27,39 +28,29 @@ class Timeline extends Module
     @x_scale = d3.time.scale().range([0, @width])
     @y_scale = d3.scale.log().range([@height, 0]).nice()
     @$types = $('<select id="type" name="type">').appendTo('#timeline')
-
-    # @x_axis = d3.svg.axis().scale(@x_scale).orient("bottom").tickSize(-height).tickSubdivide(true)
-    # @y_axis = d3.svg.axis().scale(@y_scale).orient("left").ticks(20, d3.format(",.1s")).tickSize(6, 0)
+    @set_options()
+    @register_events()
     @load_emdat_data()
 
   get_x_data: (screen_x, screen_y) ->
     console.log screen_x, screen_y
 
-  # add_timeline: () ->
-  #   @total_type_area = @timeline.append("path")
-  #     .attr("class", "area")
-  #     .attr("d", @total_type_area_maker(@damages_summary_data))
+  set_options: ()->
+    @types = ["num_disasters","num_killed","num_injured","num_affected","num_homeless","total_affected","total_damage"]
+    for x in @types
+      @$types.append $("<option>").attr('value',x).text(x)
 
-  #   @total_type_line = @timeline.append("path")
-  #     .attr("class", "line")
-  #     .attr("d", @total_type_line_maker(@damages_summary_data))
-
-    # @timeline.append("g")
-    #   .attr("class", "y axis")
-    #   .call(y_axis)
-
-    # @timeline.append("g")
-    #   .attr("class", "x axis")
-    #   .attr("transform", "translate(0, #{height})")
-    #   .call(x_axis)
+  register_events: ()->
+    @$types.on "change", () => @redraw @$types.val()
+    $(window).resize _.debounce((() => @redraw @$types.val()), 500)
 
   animate: (selector, maker, enter_class) ->
     # update
     selector
-      .attr("d", (d) => maker d)
       .transition()
         .duration(400)
-        .ease("elastic")
+        .ease("linear")
+        .attr("d", (d) => maker d)
 
     # insert
     selector.enter()
@@ -73,9 +64,10 @@ class Timeline extends Module
       .remove()
     
   redraw: (@type = @type) ->
-    @type = if !!@type then @types[0] else @type
-    console.log "redraw", @type
+    console.log "Called redraw with #{@type}"
+    @svg.attr "width", window.innerWidth 
     @x_scale.domain d3.extent @damages_summary_data.get_classified "year"
+    @x_scale.range([0, window.innerWidth])
     @y_scale.domain [1, d3.max @damages_summary_data.get_classified @type]
     @total_type_area_maker = d3.svg.area()
       .x((d) => @x_scale d.year)
@@ -100,10 +92,6 @@ class Timeline extends Module
     @time_parse = d3.time.format("%Y").parse
     d3.json "./data/emdat-by-time.json", (error, data) =>
       @data = data
-      @types = ["num_disasters","num_killed","num_injured","num_affected","num_homeless","total_affected","total_damage"]
-      for x in @types
-        do (x) =>
-          @$types.append $("<option>").attr('value',x).text(x)
       if error
         console.log error
         return
