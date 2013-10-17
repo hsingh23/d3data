@@ -1,39 +1,23 @@
-moduleKeywords = ['extended', 'included']
-class Module
-  @extend: (obj) ->
-    for key, value of obj when key not in moduleKeywords
-      @[key] = value
-
-    obj.extended?.apply(@)
-    this
-
-  @include: (obj) ->
-    for key, value of obj when key not in moduleKeywords
-      # Assign properties to the prototype
-      @::[key] = value
-
-    obj.included?.apply(@)
-    this
-
-class Timeline extends Module
+class Timeline
   constructor: (@$selector, @width, @height) ->
+    @$types = $('<select id="type" name="type">').appendTo('#timeline')
     @svg = d3.select(@$selector)
       .attr("id", "timeline-slider-svg")
       .append("svg")
         .attr("width",@width)
         .attr("height",@height)
-
-    @timeline = @svg.append("g")
-      .attr("id", "timeline-slider")
+    @$svg = $("#timeline-slider-svg")
     @x_scale = d3.time.scale().range([0, @width])
     @y_scale = d3.scale.log().range([@height, 0]).nice()
-    @$types = $('<select id="type" name="type">').appendTo('#timeline')
     @set_options()
     @register_events()
     @load_emdat_data()
 
-  get_x_data: (screen_x, screen_y) ->
-    console.log screen_x, screen_y
+  get_year_data: (pageX) ->
+    @reverse_x_scale(pageX).getFullYear()
+
+  get_tooltip: (year) ->
+    ( [disaster["disaster_type"],disaster[@type]] for disaster in @data[year])
 
   set_options: ()->
     @types = ["num_disasters","num_killed","num_injured","num_affected","num_homeless","total_affected","total_damage"]
@@ -42,13 +26,16 @@ class Timeline extends Module
 
   register_events: ()->
     @$types.on "change", () => @redraw @$types.val()
-    $(window).resize _.debounce((() => @redraw @$types.val()), 500)
+    $(window).resize _.debounce((() => @redraw @$types.val()), 250)
+    @$svg.on "mousemove", (e) => 
+      @$xmarker.css "left", e.pageX
+      @$tooltip.css "left", e.pageX
+    @$svg.mousemove _.debounce(((e) => @format_tooltip(@get_tooltip (@get_year_data e.pageX))), 250)
 
   animate: (selector, maker, enter_class) ->
     # update
     selector
       .transition()
-        .duration(400)
         .ease("linear")
         .attr("d", (d) => maker d)
 
@@ -66,9 +53,10 @@ class Timeline extends Module
   redraw: (@type = @type) ->
     console.log "Called redraw with #{@type}"
     @svg.attr "width", window.innerWidth 
-    @x_scale.domain d3.extent @damages_summary_data.get_classified "year"
+    @x_scale.domain d3.extent @damages_summary_data.get_classified_array "year"
     @x_scale.range([0, window.innerWidth])
-    @y_scale.domain [1, d3.max @damages_summary_data.get_classified @type]
+    @reverse_x_scale = @x_scale.invert 
+    @y_scale.domain [1, d3.max @damages_summary_data.get_classified_array @type]
     @total_type_area_maker = d3.svg.area()
       .x((d) => @x_scale d.year)
       .y0(@height)
@@ -101,7 +89,8 @@ class Timeline extends Module
         for interesting in @types
           t[interesting] =  d3.sum list_of_disasters, (d) -> d[interesting]
         @damages_summary_data.push(t)
-      @damages_summary_data.get_classified = (type) -> $.map @, (v) -> v[type]
+      @damages_summary_data.get_classified_array = (type) -> $.map @, (v) -> v[type]
+
       @redraw("total_damage")
 
 window.my_timeline = new Timeline("#timeline", window.innerWidth, 100)

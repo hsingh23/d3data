@@ -1,4 +1,4 @@
-// Generated on 2013-09-21 using generator-webapp 0.4.2
+// Generated on 2013-10-08 using generator-webapp 0.4.3
 'use strict';
 
 // # Globbing
@@ -13,14 +13,12 @@ module.exports = function (grunt) {
     // load all grunt tasks
     require('load-grunt-tasks')(grunt);
 
-    // configurable paths
-    var yeomanConfig = {
-        app: 'app',
-        dist: 'dist'
-    };
-
     grunt.initConfig({
-        yeoman: yeomanConfig,
+        // configurable paths
+        yeoman: {
+            app: 'app',
+            dist: 'dist'
+        },
         watch: {
             coffee: {
                 files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
@@ -55,14 +53,13 @@ module.exports = function (grunt) {
                 port: 9000,
                 livereload: 35729,
                 // change this to '0.0.0.0' to access the server from outside
-                hostname: 'localhost'
+                hostname: '0.0.0.0'
             },
             livereload: {
                 options: {
-                    open: true,
                     base: [
                         '.tmp',
-                        yeomanConfig.app
+                        '<%= yeoman.app %>'
                     ]
                 }
             },
@@ -71,14 +68,13 @@ module.exports = function (grunt) {
                     base: [
                         '.tmp',
                         'test',
-                        yeomanConfig.app,
+                        '<%= yeoman.app %>'
                     ]
                 }
             },
             dist: {
                 options: {
-                    open: true,
-                    base: yeomanConfig.dist
+                    base: '<%= yeoman.dist %>'
                 }
             }
         },
@@ -146,7 +142,8 @@ module.exports = function (grunt) {
                 httpImagesPath: '/images',
                 httpGeneratedImagesPath: '/images/generated',
                 httpFontsPath: '/styles/fonts',
-                relativeAssets: false
+                relativeAssets: false,
+                assetCacheBuster: false
             },
             dist: {
                 options: {
@@ -182,7 +179,7 @@ module.exports = function (grunt) {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
                     // `name` and `out` is set by grunt-usemin
-                    baseUrl: yeomanConfig.app + '/scripts',
+                    baseUrl: '<%= yeoman.app %>/scripts',
                     optimize: 'none',
                     // TODO: Figure out how to make sourcemaps work with grunt-usemin
                     // https://github.com/yeoman/grunt-usemin/issues/30
@@ -398,8 +395,8 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('default', [
-        'jshint',
-        'test',
+        // 'jshint',
+        // 'test',
         'build'
     ]);
 };

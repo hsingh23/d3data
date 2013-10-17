@@ -6,7 +6,10 @@
     "requirejs": "~2.1.8",
     "modernizr": "~2.6.2",
     "jquery": "~1.10.2",
-    "d3": "*"
+    "d3": "*",
+    "underscore": "~1.5.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "require-cs": "~0.4.4"
+  }
 }

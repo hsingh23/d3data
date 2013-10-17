@@ -7,7 +7,8 @@
   <meta name="viewport" content="width=device-width">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(.tmp) styles/main.css -->
-  <title>Boss man</title>
+  <link rel="stylesheet" href="./bower_components/hint.css">
+  <title>Disasters man</title>
 </head>
 <body>
   <style>
@@ -95,7 +96,7 @@
     fill: none;
     stroke: #000;
   }
-#x-marker {
+.marker {
   width:1px;
   height:100px;
   position:fixed;
@@ -104,11 +105,19 @@
   left:-10px;
 }
 
+.tooltip {
+  position:fixed;
+  width:500px;
+  height:500px;
+  bottom:100px;
+  left:-10px;
+}
 
   </style>
   <div id="timeline">
   </div>
-  <div id="x-marker"></div>
+  <div class="marker"></div>
+  <div id="tooltip"></div>
   <script src="./bower_components/jquery/jquery.js"></script>
   <script src="./bower_components/underscore/underscore-min.js"></script>
   <script src="./bower_components/d3/d3.js"></script>

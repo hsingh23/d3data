@@ -4,3 +4,7 @@ dist
 .sass-cache
 app/bower_components
 *.pyc
+*.pdf
+*.sublime-project
+*.sublime-workspace
+nohup.out
