@@ -1,11 +1,10 @@
 define ["jquery", "d3", "cs!timeline-config"], ($, d3, t) ->
   class Timeline_Singleton
     instance = null
-    @get = () ->
-      instance ?= new Timeline(t)
+
     class Timeline
       constructor: (t) ->
-        @$timeline_container = $ "##{t.timeline_container_id}"
+        @$timeline_container = $ ;"##{t.timeline_container_id}"
         @$svg = $ "##{t.svg}"
         @$data_views_select = $('<select id="type" name="type">').appendTo(@$timeline_container)
 
@@ -104,5 +103,6 @@ define ["jquery", "d3", "cs!timeline-config"], ($, d3, t) ->
           @damages_summary_data.get_classified_array = (type) -> $.map @, (v) -> v[type]
 
           @redraw("total_damage")
+    @get = () ->
+      instance ?= new Timeline(t)
 
-  window.my_timeline = new Timeline("#timeline", window.innerWidth, 100)

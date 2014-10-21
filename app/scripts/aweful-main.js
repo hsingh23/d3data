@@ -58,7 +58,9 @@ require.config({
     }
 });
 
-require(['cs!aweful', 'jquery', 'd3', 'underscore'], function (app, $, d3, _) {
+require(['cs!timeline-tooltip', 'cs!timeline'], function (Tooltip, Timeline) {
     'use strict';
-    console.log(app);
+    tooltip = Tooltip()
+    // window.my_timeline = new Timeline("#timeline", window.innerWidth, 100)
 });
+
