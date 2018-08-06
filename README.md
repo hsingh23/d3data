@@ -1,6 +1,8 @@
 d3data
 ======
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/hsingh23/d3data.svg)](https://greenkeeper.io/)
+
 Visualize data to promote social change
 
 [d3 wiki](https://github.com/mbostock/d3/wiki)  
